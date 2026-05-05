@@ -42,7 +42,7 @@ When Render prompts for environment variables, fill in the values from steps 1â€
 
 **5. Pin the OAuth callback** â†’ `PUBLIC_BASE_URL`
 
-After the first deploy, copy your auto-assigned service URL (e.g. `https://your-service.onrender.com`) from the Render Dashboard. Set `PUBLIC_BASE_URL` to that URL and trigger a redeploy to pin the OAuth callback origin.
+After the first deploy, copy your auto-assigned service URL (e.g. `https://your-service.onrender.com`) from the Render Dashboard. Navigate to the service `Environment` in the left-hand panel, set `PUBLIC_BASE_URL` to that URL, and trigger a redeploy to pin the OAuth callback origin.
 
 This sample shows how to build a GitHub PR summarizer where each browser session connects its own GitHub account once, then uses that connected token for later tool calls. The server never asks the browser for a `userId`.
 

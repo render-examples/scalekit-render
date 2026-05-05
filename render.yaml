@@ -1,31 +1,27 @@
-projects:
-  - name: render-pr-summarizer
-    environments:
-      - name: production
-        services:
-          - type: web
-            name: render-pr-summarizer
-            runtime: node
-            buildCommand: npm install && npm run build
-            startCommand: node dist/main.js
-            envVars:
-              - key: PORT
-                value: 3000
-              - key: LITELLM_API_KEY
-                sync: false
-              - key: LITELLM_BASE_URL
-                sync: false
-              - key: LITELLM_MODEL
-                value: gpt-5.4-mini
-              - key: SCALEKIT_ENVIRONMENT_URL
-                sync: false
-              - key: SCALEKIT_CLIENT_ID
-                sync: false
-              - key: SCALEKIT_CLIENT_SECRET
-                sync: false
-              - key: GITHUB_CONNECTION_NAME
-                sync: false
-              - key: SESSION_SECRET
-                generateValue: true
-              - key: PUBLIC_BASE_URL
-                sync: false
+services:
+  - type: web
+    name: render-pr-summarizer
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: node dist/main.js
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: LITELLM_API_KEY
+        sync: false
+      - key: LITELLM_BASE_URL
+        sync: false
+      - key: LITELLM_MODEL
+        value: gpt-5.4-mini
+      - key: SCALEKIT_ENVIRONMENT_URL
+        sync: false
+      - key: SCALEKIT_CLIENT_ID
+        sync: false
+      - key: SCALEKIT_CLIENT_SECRET
+        sync: false
+      - key: GITHUB_CONNECTION_NAME
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PUBLIC_BASE_URL
+        sync: false
