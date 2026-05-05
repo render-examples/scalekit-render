@@ -2,7 +2,7 @@
 
 > 📖 **Cookbook:** [Build a multi-user GitHub PR summarizer agent](https://docs.scalekit.com/cookbooks/render-github-pr-summarizer/)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/scalekit-developers/render-ai-agent-deploykit)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/pr-summarizer-agent-scalekit)
 
 ### Quick start
 
@@ -36,7 +36,7 @@ The default model is `gpt-5.4-mini`, which works with an OpenAI key and no proxy
 
 **4. Deploy**
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/scalekit-developers/render-ai-agent-deploykit)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/pr-summarizer-agent-scalekit)
 
 When Render prompts for environment variables, fill in the values from steps 1–4. Leave `PUBLIC_BASE_URL` blank for now. `SESSION_SECRET` and `PORT` are set automatically.
 
