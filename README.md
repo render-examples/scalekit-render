@@ -8,7 +8,13 @@
 
 Provision these keys before clicking the button above.
 
-**1. Scalekit credentials** → `SCALEKIT_ENVIRONMENT_URL`, `SCALEKIT_CLIENT_ID`, `SCALEKIT_CLIENT_SECRET`
+**1. `LITELLM_API_KEY` (required), `LITELLM_BASE_URL` (optional)
+
+The app uses the standard OpenAI SDK. Set `LITELLM_API_KEY` to your OpenAI API key and leave `LITELLM_BASE_URL` unset to call OpenAI directly — no LiteLLM server needed. Set `LITELLM_BASE_URL` only if you're routing through a proxy.
+
+The default model is `gpt-5.4-mini`, which works with an OpenAI key and no proxy. To use Claude, set `LITELLM_BASE_URL` to an Anthropic-compatible proxy and set `LITELLM_MODEL` accordingly.
+
+**2. Scalekit credentials** → `SCALEKIT_ENVIRONMENT_URL`, `SCALEKIT_CLIENT_ID`, `SCALEKIT_CLIENT_SECRET`
 
 - Sign up or log in at [app.scalekit.com](https://app.scalekit.com)
 - Select AgentKit
@@ -19,7 +25,7 @@ Provision these keys before clicking the button above.
 - Go to **User verification** settings
 - Set it to **Custom user verifier**
 
-**2. Scalekit GitHub connector** → `GITHUB_CONNECTION_NAME`
+**3. Scalekit GitHub connector** → `GITHUB_CONNECTION_NAME`
 
 - In the Scalekit Dashboard, navigate to **Connectors** in the left sidebar
 - Click `Create Connection` in the top right
@@ -27,12 +33,6 @@ Provision these keys before clicking the button above.
 - Copy the generated connection name — this is your `GITHUB_CONNECTION_NAME`
 - Enter the `SCALEKIT_CLIENT_ID` and `SCALEKIT_CLIENT_SECRET` from the previous step
 - Click **Save**
-
-**3. LLM API key** → `LITELLM_API_KEY` (required), `LITELLM_BASE_URL` (optional)
-
-The app uses the standard OpenAI SDK. Set `LITELLM_API_KEY` to your OpenAI API key and leave `LITELLM_BASE_URL` unset to call OpenAI directly — no LiteLLM server needed. Set `LITELLM_BASE_URL` only if you're routing through a proxy.
-
-The default model is `gpt-5.4-mini`, which works with an OpenAI key and no proxy. To use Claude, set `LITELLM_BASE_URL` to an Anthropic-compatible proxy and set `LITELLM_MODEL` accordingly.
 
 **4. Deploy**
 
