@@ -2,6 +2,48 @@
 
 > 📖 **Cookbook:** [Build a multi-user GitHub PR summarizer agent](https://docs.scalekit.com/cookbooks/render-github-pr-summarizer/)
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/scalekit-developers/render-ai-agent-deploykit)
+
+### Quick start
+
+Provision these keys before clicking the button above.
+
+**1. Scalekit credentials** → `SCALEKIT_ENVIRONMENT_URL`, `SCALEKIT_CLIENT_ID`, `SCALEKIT_CLIENT_SECRET`
+
+- Sign up or log in at [app.scalekit.com](https://app.scalekit.com)
+- Select AgentKit
+- Navigate to settings in the left sidebar
+- Copy the **Environment URL** and **Client ID** from the environment settings
+- Click `Generate new secret` in the bottom right
+- Copy the secret you just created
+- Go to **User verification** settings
+- Set it to **Custom user verifier**
+
+**2. Scalekit GitHub connector** → `GITHUB_CONNECTION_NAME`
+
+- In the Scalekit Dashboard, navigate to **Connectors** in the left sidebar
+- Click `Create Connection` in the top right
+- Search for GitHub and click **Create**
+- Copy the generated connection name — this is your `GITHUB_CONNECTION_NAME`
+- Enter the `SCALEKIT_CLIENT_ID` and `SCALEKIT_CLIENT_SECRET` from the previous step
+- Click **Save**
+
+**3. LLM API key** → `LITELLM_API_KEY` (required), `LITELLM_BASE_URL` (optional)
+
+The app uses the standard OpenAI SDK. Set `LITELLM_API_KEY` to your OpenAI API key and leave `LITELLM_BASE_URL` unset to call OpenAI directly — no LiteLLM server needed. Set `LITELLM_BASE_URL` only if you're routing through a proxy.
+
+The default model is `gpt-5.4-mini`, which works with an OpenAI key and no proxy. To use Claude, set `LITELLM_BASE_URL` to an Anthropic-compatible proxy and set `LITELLM_MODEL` accordingly.
+
+**4. Deploy**
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/scalekit-developers/render-ai-agent-deploykit)
+
+When Render prompts for environment variables, fill in the values from steps 1–4. Leave `PUBLIC_BASE_URL` blank for now. `SESSION_SECRET` and `PORT` are set automatically.
+
+**5. Pin the OAuth callback** → `PUBLIC_BASE_URL`
+
+After the first deploy, copy your auto-assigned service URL (e.g. `https://your-service.onrender.com`) from the Render Dashboard. Set `PUBLIC_BASE_URL` to that URL and trigger a redeploy to pin the OAuth callback origin.
+
 This sample shows how to build a GitHub PR summarizer where each browser session connects its own GitHub account once, then uses that connected token for later tool calls. The server never asks the browser for a `userId`.
 
 The app finds the five most-discussed open pull requests in a repository, fetches each PR's diff and comment thread through Scalekit's GitHub connector, then calls an LLM through any OpenAI-compatible API to produce a plain-language summary.
@@ -118,24 +160,6 @@ Open `http://localhost:3000`, click **Connect GitHub**, finish OAuth, then paste
 After the callback succeeds, the page shows a **GitHub connected** banner and the Step 1 button changes to **Reconnect GitHub**.
 
 Public repositories work with any connected GitHub account. Private repositories only work if the connected account has access.
-
-## Deploy to Render
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/scalekit-developers/render-ai-agent-deploykit)
-
-Render reads `render.yaml` and creates a Node web service. Set the required secrets in the Render dashboard:
-
-- `LITELLM_API_KEY`
-- `SCALEKIT_ENVIRONMENT_URL`
-- `SCALEKIT_CLIENT_ID`
-- `SCALEKIT_CLIENT_SECRET`
-- `GITHUB_CONNECTION_NAME`
-- `SESSION_SECRET`
-- `PUBLIC_BASE_URL`
-
-When `PUBLIC_BASE_URL` is set, use the exact public URL of the deployed service, for example `https://your-service.onrender.com`.
-
-If `PUBLIC_BASE_URL` is omitted, the app falls back to the incoming request origin for the OAuth callback URL. When you deploy from the included `render.yaml`, Render auto-generates `SESSION_SECRET` for you.
 
 ## Architecture
 
