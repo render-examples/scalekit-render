@@ -8,11 +8,17 @@
 
 Provision these keys before clicking the button above.
 
-**1. `LITELLM_API_KEY` (required), `LITELLM_BASE_URL` (optional)
+**1. `OPENAI_API_KEY` (required), `OPENAI_BASE_URL` (optional), `OPENAI_MODEL` (optional)**
 
-The app uses the standard OpenAI SDK. Set `LITELLM_API_KEY` to your OpenAI API key and leave `LITELLM_BASE_URL` unset to call OpenAI directly — no LiteLLM server needed. Set `LITELLM_BASE_URL` only if you're routing through a proxy.
+The app accepts any OpenAI-compatible API. Pick the row that matches your setup:
 
-The default model is `gpt-5.4-mini`, which works with an OpenAI key and no proxy. To use Claude, set `LITELLM_BASE_URL` to an Anthropic-compatible proxy and set `LITELLM_MODEL` accordingly.
+| | `OPENAI_API_KEY` | `OPENAI_BASE_URL` | `OPENAI_MODEL` |
+|---|---|---|---|
+| **OpenAI direct** | your OpenAI key (`sk-...`) | *(leave empty)* | `gpt-4.1-mini` |
+| **LiteLLM proxy** | your proxy token | proxy URL (e.g. `https://llm.example.com`) | any model the proxy serves (e.g. `claude-haiku-4-5`) |
+| **Azure / Ollama / other** | your key or token | your endpoint URL | your model name |
+
+Leave `OPENAI_BASE_URL` empty to reach OpenAI directly. The default model is `gpt-4.1-mini`.
 
 **2. Scalekit credentials** → `SCALEKIT_ENVIRONMENT_URL`, `SCALEKIT_CLIENT_ID`, `SCALEKIT_CLIENT_SECRET`
 
@@ -30,19 +36,23 @@ The default model is `gpt-5.4-mini`, which works with an OpenAI key and no proxy
 - In the Scalekit Dashboard, navigate to **Connectors** in the left sidebar
 - Click `Create Connection` in the top right
 - Search for GitHub and click **Create**
+- Copy the **Redirect URI** shown by Scalekit for this GitHub connection
+- In your GitHub OAuth App settings, set **Authorization callback URL** to that Scalekit Redirect URI
 - Copy the generated connection name — this is your `GITHUB_CONNECTION_NAME`
 - Enter the `SCALEKIT_CLIENT_ID` and `SCALEKIT_CLIENT_SECRET` from the previous step
 - Click **Save**
+
+> **Note:** Do not set GitHub's OAuth App callback to your Render service URL. GitHub must redirect back to Scalekit's Redirect URI, not to `PUBLIC_BASE_URL/user/verify`.
 
 **4. Deploy**
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/pr-summarizer-agent-scalekit)
 
-When Render prompts for environment variables, fill in the values from steps 1–4. Leave `PUBLIC_BASE_URL` blank for now. `SESSION_SECRET` and `PORT` are set automatically.
+When Render prompts for environment variables, fill in the values from steps 1–4. Set `PUBLIC_BASE_URL` to the same value as your `SCALEKIT_ENVIRONMENT_URL`. `SESSION_SECRET` and `PORT` are set automatically.
 
-**5. Pin the OAuth callback** → `PUBLIC_BASE_URL`
+**5. Verify the OAuth callback**
 
-After the first deploy, copy your auto-assigned service URL (e.g. `https://your-service.onrender.com`) from the Render Dashboard. Navigate to the service `Environment` in the left-hand panel, set `PUBLIC_BASE_URL` to that URL, and trigger a redeploy to pin the OAuth callback origin.
+Confirm that `PUBLIC_BASE_URL` matches your `SCALEKIT_ENVIRONMENT_URL`. The app constructs `${PUBLIC_BASE_URL}/user/verify` as the OAuth callback URL, so these must be the same value.
 
 This sample shows how to build a GitHub PR summarizer where each browser session connects its own GitHub account once, then uses that connected token for later tool calls. The server never asks the browser for a `userId`.
 
@@ -120,19 +130,22 @@ If the session has not connected GitHub yet, the server returns `401`.
 
 ### 1. Configure the Scalekit GitHub connector
 
-1. Open [app.scalekit.com](https://app.scalekit.com) and go to **Agent Auth > Connectors**
+1. Open [app.scalekit.com](https://app.scalekit.com) and go to **AgentKit > Connectors**
 2. Add a **GitHub** connector
-3. Finish the connector setup
-4. Copy the generated connection name into `GITHUB_CONNECTION_NAME`
+3. Copy the **Redirect URI** shown by Scalekit for this GitHub connection
+4. In GitHub's OAuth App settings, set **Authorization callback URL** to that Scalekit Redirect URI
+5. Finish the connector setup
+6. Copy the generated connection name into `GITHUB_CONNECTION_NAME`
+
+Do not set GitHub's OAuth App callback to your Render service URL. GitHub must redirect back to Scalekit's Redirect URI; Scalekit then redirects the browser to `PUBLIC_BASE_URL/user/verify`.
 
 ### 2. Enable custom user verification
 
 This sample uses the secure connected-account verification flow from Scalekit's docs.
 
 1. In the Scalekit Dashboard, go to **AgentKit > Settings > User verification** and set it to **Custom user verification**
-2. Set `PUBLIC_BASE_URL` if you want to pin the callback origin explicitly
-3. If `PUBLIC_BASE_URL` is unset, the app falls back to the incoming request origin
-4. The app sends `${PUBLIC_BASE_URL}/user/verify` as `userVerifyUrl` when it creates the GitHub auth link when that variable is set
+2. Set `PUBLIC_BASE_URL` to the same value as `SCALEKIT_ENVIRONMENT_URL`
+3. The app sends `${PUBLIC_BASE_URL}/user/verify` as `userVerifyUrl` when it creates the GitHub auth link
 
 ### 3. Configure local environment variables
 
@@ -146,8 +159,16 @@ Fill in `.env` with your Scalekit and LLM settings.
 Important variables:
 
 - `SESSION_SECRET`: generate with `openssl rand -hex 32`
-- `PUBLIC_BASE_URL`: optional override for the callback origin; set it to `http://localhost:3000` locally or your public Render URL in production if you want to pin the callback URL explicitly
+- `PUBLIC_BASE_URL`: set to the same value as `SCALEKIT_ENVIRONMENT_URL`; used to construct the OAuth callback URL (`${PUBLIC_BASE_URL}/user/verify`)
 - `GITHUB_CONNECTION_NAME`: copy from the Scalekit dashboard
+
+**LLM configuration** — the app accepts any OpenAI-compatible API:
+
+| | `OPENAI_API_KEY` | `OPENAI_BASE_URL` | `OPENAI_MODEL` |
+|---|---|---|---|
+| **OpenAI direct** | your OpenAI key (`sk-...`) | *(leave empty)* | `gpt-4.1-mini` |
+| **LiteLLM proxy** | your proxy token | proxy URL (e.g. `https://llm.example.com`) | any model the proxy serves |
+| **Azure / Ollama / other** | your key or token | your endpoint URL | your model name |
 
 ### 4. Run the app
 
