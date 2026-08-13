@@ -19,7 +19,7 @@ export function renderAuthCompletePage(): string {
       --success-border: #a8e0c4;
       --radius: 12px;
       --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
-      --font: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
     * { box-sizing: border-box; }
     body {
@@ -31,6 +31,7 @@ export function renderAuthCompletePage(): string {
         radial-gradient(900px 500px at 100% 0%, rgba(15, 123, 76, 0.08), transparent 50%),
         var(--bg);
       color: var(--text);
+      -webkit-font-smoothing: antialiased;
     }
     .box {
       background: var(--surface);
@@ -56,8 +57,15 @@ export function renderAuthCompletePage(): string {
       font-weight: 700;
       margin-bottom: 1rem;
     }
-    h1 { font-size: 1.25rem; font-weight: 650; letter-spacing: -0.02em; margin: 0 0 0.5rem; }
-    p { color: var(--muted); font-size: 0.95rem; line-height: 1.55; margin: 0; }
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+      text-wrap: balance;
+    }
+    p { color: var(--muted); font-size: 0.95rem; line-height: 1.55; margin: 0; text-wrap: pretty; }
+    ::selection { background: rgba(61, 139, 253, 0.22); color: var(--text); }
   </style>
 </head>
 <body>
@@ -119,9 +127,16 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       --danger-border: #fecdca;
       --radius: 12px;
       --radius-sm: 8px;
-      --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 28px rgba(15, 23, 42, 0.06);
-      --font: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.06);
+      --font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --target: 2.75rem; /* 44px — Fitts-friendly */
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -134,7 +149,9 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
         var(--bg);
       padding: 2rem 1.25rem 3rem;
       -webkit-font-smoothing: antialiased;
+      font-optical-sizing: auto;
     }
+    ::selection { background: rgba(61, 139, 253, 0.22); color: var(--text); }
     .container { max-width: 1120px; margin: 0 auto; }
 
     .topbar {
@@ -174,12 +191,15 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.2;
+      text-wrap: balance;
     }
     header .lede {
       color: var(--muted);
       font-size: 0.98rem;
       line-height: 1.55;
       margin-top: 0.15rem;
+      text-wrap: pretty;
+      max-width: 40rem;
     }
     .header-links {
       display: flex;
@@ -190,10 +210,19 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
     }
     .header-links a {
       color: var(--accent-ink);
-      font-weight: 550;
+      font-weight: 500;
       text-decoration: none;
+      text-underline-offset: 0.18em;
+      min-height: 2rem;
+      display: inline-flex;
+      align-items: center;
     }
-    .header-links a:hover { text-decoration: underline; text-underline-offset: 2px; }
+    .header-links a:hover { text-decoration: underline; }
+    .header-links a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
     .header-links-sep { color: var(--subtle); user-select: none; }
 
     .banner {
@@ -245,8 +274,8 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       box-shadow: var(--shadow);
     }
     .card {
-      padding: 1.35rem 1.4rem 1.45rem;
-      margin-bottom: 1rem;
+      padding: var(--space-5) var(--space-5) var(--space-5);
+      margin-bottom: var(--space-4);
     }
     .card:last-child { margin-bottom: 0; }
     .card-head {
@@ -263,8 +292,8 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       padding: 0.12rem 0.5rem;
       border-radius: 999px;
       font-size: 0.7rem;
-      font-weight: 650;
-      letter-spacing: 0.02em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
       background: var(--accent-soft);
       color: var(--accent-ink);
@@ -277,8 +306,9 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
     }
     .card h2 {
       font-size: 1.05rem;
-      font-weight: 650;
+      font-weight: 600;
       letter-spacing: -0.02em;
+      text-wrap: balance;
     }
     .card .subtitle {
       color: var(--muted);
@@ -306,6 +336,7 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
     }
     input[type="text"] {
       width: 100%;
+      min-height: var(--target);
       padding: 0.65rem 0.8rem;
       border: 1px solid var(--border-strong);
       border-radius: var(--radius-sm);
@@ -314,14 +345,18 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       background: #fbfcfd;
       color: var(--text);
       outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
     }
-    input[type="text"]::placeholder { color: #9aa5b1; }
+    input[type="text"]::placeholder { color: #9aa5b1; opacity: 1; }
     input[type="text"]:hover { background: #fff; }
     input[type="text"]:focus {
       border-color: var(--accent);
       background: #fff;
       box-shadow: 0 0 0 3px rgba(61, 139, 253, 0.18);
+    }
+    input[type="text"]:focus-visible {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(61, 139, 253, 0.22);
     }
 
     .btn {
@@ -329,6 +364,8 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       align-items: center;
       justify-content: center;
       gap: 0.4rem;
+      min-height: var(--target);
+      min-width: var(--target);
       padding: 0.65rem 1.15rem;
       border-radius: var(--radius-sm);
       font-size: 0.9rem;
@@ -336,14 +373,21 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       font-family: inherit;
       cursor: pointer;
       border: 1px solid transparent;
-      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s, transform 0.05s;
+      transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease, color 150ms ease, transform 120ms ease;
     }
-    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:active:not(:disabled) { transform: scale(0.98); }
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
     .btn:disabled { opacity: 0.55; cursor: not-allowed; }
     .btn-primary {
       background: linear-gradient(180deg, #4b95ff 0%, var(--accent) 100%);
       color: #fff;
-      box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 1px 2px rgba(26, 79, 156, 0.25);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.22) inset,
+        0 1px 2px rgba(15, 23, 42, 0.08),
+        0 4px 10px rgba(26, 79, 156, 0.18);
     }
     .btn-primary:hover:not(:disabled) {
       background: linear-gradient(180deg, #3f8af5 0%, var(--accent-hover) 100%);
@@ -388,7 +432,7 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       padding: 0.95rem 1.25rem;
       border-bottom: 1px solid var(--border);
       font-size: 0.92rem;
-      font-weight: 650;
+      font-weight: 600;
       letter-spacing: -0.01em;
       display: flex;
       align-items: center;
@@ -398,7 +442,8 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
     }
     .summary-panel-header span:last-child {
       font-size: 0.75rem;
-      font-weight: 550;
+      font-weight: 600;
+      letter-spacing: 0.04em;
       color: var(--subtle);
       letter-spacing: 0.02em;
       text-transform: uppercase;
@@ -454,6 +499,20 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       animation: spin 0.7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .btn:active:not(:disabled) { transform: none; }
+      .spinner {
+        animation: none;
+        border-top-color: var(--accent);
+        opacity: 0.85;
+      }
+    }
     .summary-content { display: flex; flex-direction: column; gap: 0.9rem; }
     .summary-meta { font-size: 0.8rem; color: var(--subtle); }
     .prs-list { display: flex; flex-wrap: wrap; gap: 0.35rem; }
@@ -465,9 +524,10 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       border-radius: 999px;
       padding: 0.18rem 0.55rem;
       font-size: 0.76rem;
-      font-weight: 550;
+      font-weight: 500;
     }
     .summary-text {
+      /* Concentric with panel: outer 12px, panel body pad ~20px → inner ~8px */
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
@@ -476,6 +536,7 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       line-height: 1.7;
       white-space: pre-wrap;
       color: #1a2430;
+      font-variant-numeric: tabular-nums;
     }
     .summary-error {
       background: var(--danger-bg);
@@ -500,8 +561,14 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       align-items: center;
       justify-content: space-between;
       gap: 0.75rem;
+      min-height: var(--target);
       padding: 1rem 1.2rem;
       user-select: none;
+    }
+    details.card-collapsible > summary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+      border-radius: var(--radius);
     }
     details.card-collapsible > summary::-webkit-details-marker { display: none; }
     details.card-collapsible > summary::marker { content: ''; }
@@ -513,7 +580,7 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
     }
     .collapsible-summary-text strong {
       font-size: 0.95rem;
-      font-weight: 650;
+      font-weight: 600;
       letter-spacing: -0.01em;
     }
     .collapsible-summary-hint {
@@ -561,7 +628,12 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
       padding: 0.08rem 0.32rem;
       border-radius: 5px;
     }
-    .help-list a { color: var(--accent-ink); font-weight: 550; }
+    .help-list a { color: var(--accent-ink); font-weight: 500; text-underline-offset: 0.18em; }
+    .help-list a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
 
     .resource-links {
       margin-top: 1.5rem;
@@ -578,10 +650,16 @@ export function renderHomePage({ connected }: { connected: boolean }): string {
     }
     .resource-links a {
       color: var(--accent-ink);
-      font-weight: 550;
+      font-weight: 500;
       text-decoration: none;
+      text-underline-offset: 0.18em;
     }
-    .resource-links a:hover { text-decoration: underline; text-underline-offset: 2px; }
+    .resource-links a:hover { text-decoration: underline; }
+    .resource-links a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
     .resource-links-sep { color: #c0c8d0; margin: 0 0.4rem; user-select: none; }
   </style>
 </head>
