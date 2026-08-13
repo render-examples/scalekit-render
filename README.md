@@ -72,7 +72,7 @@ npm install
 | `SCALEKIT_ENVIRONMENT_URL` | Scalekit → **Developers → API Credentials** |
 | `SCALEKIT_CLIENT_ID` | Same |
 | `SCALEKIT_CLIENT_SECRET` | Same |
-| `GITHUB_CONNECTION_NAME` | Scalekit → **AgentKit → Connectors** (connection name) |
+| `GITHUB_CONNECTION_NAME` | Scalekit → **AgentKit → Connectors** (connection name). Optional; defaults to `github-qkHFhMip` for the sampleapps Render demo env |
 | `OPENAI_API_KEY` | OpenAI project key (or OpenAI-compatible proxy token) — see [least privilege](#openai-api-key-least-privilege) |
 | `OPENAI_MODEL` | Chat model id (default `gpt-4.1-mini`) |
 | `OPENAI_BASE_URL` | Optional. Empty = OpenAI direct. Set for LiteLLM / Azure / other OpenAI-compatible APIs |

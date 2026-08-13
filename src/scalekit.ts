@@ -28,13 +28,13 @@ export const scalekit = new Proxy({} as ScalekitClient, {
   },
 });
 
-const GITHUB_CONNECTION_NAME = (() => {
-  const v = process.env.GITHUB_CONNECTION_NAME;
-  if (!v) throw new Error(
-    "GITHUB_CONNECTION_NAME is required. Copy the connection name from Scalekit Dashboard → AgentKit → Connectors. Each Scalekit environment gets a unique name (e.g. github-abc12345).",
-  );
-  return v;
-})();
+// Default is the GitHub connector key_id on the Scalekit "Render/Apify Demo"
+// environment (sampleapps.scalekit.com → github-qkHFhMip). Override with
+// GITHUB_CONNECTION_NAME for other environments.
+const DEFAULT_GITHUB_CONNECTION_NAME = "github-qkHFhMip";
+
+const GITHUB_CONNECTION_NAME =
+  process.env.GITHUB_CONNECTION_NAME?.trim() || DEFAULT_GITHUB_CONNECTION_NAME;
 
 /**
  * Execute a pre-built GitHub tool via Scalekit on behalf of a user.

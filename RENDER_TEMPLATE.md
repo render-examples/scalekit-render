@@ -50,7 +50,7 @@ Scalekit GitHub connector fetches PR data with connected user's token
 | `SCALEKIT_ENVIRONMENT_URL` | Yes | From Scalekit dashboard → Developers → API Credentials |
 | `SCALEKIT_CLIENT_ID` | Yes | Same location |
 | `SCALEKIT_CLIENT_SECRET` | Yes | Same location |
-| `GITHUB_CONNECTION_NAME` | Yes | From AgentKit → Connectors |
+| `GITHUB_CONNECTION_NAME` | No* | From AgentKit → Connectors. Defaults to `github-qkHFhMip` (sampleapps Render demo) |
 | `OPENAI_API_KEY` | Yes | OpenAI **project** key or proxy token (see least privilege below) |
 | `OPENAI_BASE_URL` | No | Leave empty for OpenAI direct. Set to proxy URL for LiteLLM, Azure, etc. |
 | `OPENAI_MODEL` | No | Default: `gpt-4.1-mini`. Higher quality: `gpt-4.1` |
