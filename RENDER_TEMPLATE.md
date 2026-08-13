@@ -51,9 +51,9 @@ Scalekit GitHub connector fetches PR data with connected user's token
 | `SCALEKIT_CLIENT_ID` | Yes | Same location |
 | `SCALEKIT_CLIENT_SECRET` | Yes | Same location |
 | `GITHUB_CONNECTION_NAME` | Yes | From AgentKit → Connectors |
-| `OPENAI_API_KEY` | Yes | OpenAI key or proxy token |
+| `OPENAI_API_KEY` | Yes | OpenAI **project** key or proxy token (see least privilege below) |
 | `OPENAI_BASE_URL` | No | Leave empty for OpenAI direct. Set to proxy URL for LiteLLM, Azure, etc. |
-| `OPENAI_MODEL` | No | Default: `gpt-4.1-mini` |
+| `OPENAI_MODEL` | No | Default: `gpt-4.1-mini`. Higher quality: `gpt-4.1` |
 | `SESSION_SECRET` | Auto | `render.yaml` auto-generates this. Or generate with `openssl rand -hex 32`. |
 | `PUBLIC_BASE_URL` | No | Auto-detected from proxy headers. Only needed behind a custom domain. |
 
@@ -61,22 +61,41 @@ The app accepts any OpenAI-compatible API:
 
 | | `OPENAI_API_KEY` | `OPENAI_BASE_URL` | `OPENAI_MODEL` |
 |---|---|---|---|
-| **OpenAI direct** | your OpenAI key (`sk-...`) | *(leave empty)* | `gpt-4.1-mini` |
+| **OpenAI direct** | project key (`sk-proj-...` / `sk-...`) | *(leave empty)* | `gpt-4.1-mini` |
+| **OpenAI higher quality** | same | *(leave empty)* | `gpt-4.1` |
 | **LiteLLM proxy** | your proxy token | proxy URL (e.g. `https://llm.example.com`) | any model the proxy serves (e.g. `claude-haiku-4-5`) |
 | **Azure / Ollama / other** | your key or token | your endpoint URL | your model name |
 
-## Scalekit setup
+### OpenAI key least privilege
 
-Before using the deployed app, complete these steps in the [Scalekit dashboard](https://app.scalekit.com). **Both steps are required — the app will not work without them.**
+This app only calls **chat completions**. On [platform.openai.com](https://platform.openai.com):
 
-### GitHub connector
+1. Create a dedicated **project** and **project secret key**
+2. Set key permissions to **Restricted** (not All)
+3. Enable write access only for model / chat inference
+4. Leave Assistants, Fine-tuning, Files, and other unused APIs at **None**
+5. Optionally allow only the model ids you set in `OPENAI_MODEL`
+
+## Setup order (Scalekit → GitHub → env → use)
+
+Follow this order once. Flipping between products out of order is the main source of setup confusion.
+
+```text
+1. Scalekit  → GitHub connector (connection name + Redirect URI)
+2. GitHub    → OAuth App callback = Scalekit Redirect URI (not Render URL)
+3. Scalekit  → User verification mode (required)
+4. Secrets   → Render Environment / local .env
+5. Browser   → Connect GitHub → summarize
+```
+
+### Scalekit — GitHub connector
 
 1. Go to **AgentKit > Connectors** and add a **GitHub** connector
 2. Copy the **Redirect URI** shown by Scalekit for that connection
 3. In GitHub's OAuth App settings, set **Authorization callback URL** to the Scalekit Redirect URI — **not** this Render app's URL
 4. Copy the connector's connection name into the `GITHUB_CONNECTION_NAME` env var
 
-### User verification
+### Scalekit — user verification
 
 Go to **AgentKit > Settings > User verification** and choose a mode:
 
