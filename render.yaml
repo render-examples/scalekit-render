@@ -35,8 +35,10 @@ services:
         sync: false
       - key: SCALEKIT_CLIENT_SECRET
         sync: false
+      # Defaults to the Render/Apify Demo GitHub connector on sampleapps.
+      # Override in the dashboard for other Scalekit environments.
       - key: GITHUB_CONNECTION_NAME
-        sync: false
+        value: github-qkHFhMip
       - key: SESSION_SECRET
         generateValue: true
       # Optional — only needed if Render's proxy headers are unreliable.
