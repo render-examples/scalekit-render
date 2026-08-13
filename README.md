@@ -4,7 +4,7 @@
 >
 > 🎬 **Video walkthrough:** [Watch the setup demo on YouTube](https://youtu.be/w3atzSkKE1w)
 >
-> 🚀 **Live demo:** [render-pr-summarizer on Render](https://render-pr-summarizer-fivu.onrender.com/)
+> 🚀 **Live demo:** [render-pr-summarizer on Render](https://render-pr-summarizer.onrender.com/)
 
 This sample shows how to build a GitHub PR summarizer where each browser session connects its own GitHub account once, then uses that connected token for later tool calls. The server never asks the browser for a `userId`.
 
