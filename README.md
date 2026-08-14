@@ -4,7 +4,9 @@ Deploy a multi-user GitHub PR summarizer on Render in one click. Each visitor co
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/scalekit-render)
 
-**[Cookbook](https://docs.scalekit.com/cookbooks/render-github-pr-summarizer/)** · **[Video walkthrough](https://youtu.be/w3atzSkKE1w)**
+**[Cookbook](https://docs.scalekit.com/cookbooks/render-github-pr-summarizer/)**
+
+https://github.com/user-attachments/assets/b52ae471-9a37-4dbf-8ea4-ae2814ce8ca5
 
 ## What it does
 
